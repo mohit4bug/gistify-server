@@ -10,12 +10,23 @@ require('./lib/passport')
 
 // middlewares
 app.use(cors({
-    origin: process.env.CLIENT_URL.toString(),
+    origin: process.env.CLIENT_URL,
     methods: ['GET,HEAD,PUT,PATCH,POST,DELETE'],
     credentials: true
 }))
-app.options("*", cors())
-
+app.use((req, res, next) => {
+    const allowedOrigins = [process.env.CLIENT_URL.toString(),
+        'https://gistify-client.vercel.app', 'https://gistify-client.vercel.app/'];
+    const origin = req.headers.origin
+    if (allowedOrigins.includes(origin)) {
+        res.setHeader('Access-Control-Allow-Origin', origin);
+    }
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.header('Access-Control-Allow-Methods', 'GET, PUT', 'POST', 'OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.header('Access-Control-Allow-Credentials', true);
+    return next();
+});
 
 app.use(express.json())
 app.use(cookieSession({
