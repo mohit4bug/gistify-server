@@ -10,10 +10,11 @@ require('./lib/passport')
 
 // middlewares
 app.use(cors({
-    origin: process.env.CLIENT_URL,
+    origin: process.env.CLIENT_URL.toString(),
     methods: ['GET,HEAD,PUT,PATCH,POST,DELETE'],
     credentials: true
 }))
+app.options("*", cors())
 
 
 app.use(express.json())
