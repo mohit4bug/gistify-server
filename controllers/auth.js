@@ -1,6 +1,7 @@
 const loginSuccess = (req, res) => {
     if (req.user) {
-        return res.status(200).json({
+        res.header('Access-Control-Allow-Origin', 'https://gistify-client.vercel.app');
+        res.status(200).json({
             message: 'User found!',
             success: true,
             user: req.user
